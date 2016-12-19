@@ -3,6 +3,7 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -25,9 +26,12 @@ public class Send {
             connection = factory.newConnection();
             channel = connection.createChannel();
             channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-            String message = "你好";
-            channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
-            System.out.println(" [x] Sent '" + message + "'");
+            String message = "";
+            while (!message.equals("exit")) {
+                message = new Scanner(System.in).next();
+                channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
+                System.out.println(" [x] Sent '" + message + "'");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (TimeoutException e) {
