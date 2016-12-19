@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="application/javascript" src="../js/stomp.js"></script>
+    <script type="application/javascript" src="https://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+        $(function () {
+            var ws = new WebSocket('ws://172.16.11.179:15674/ws');
+            var client = Stomp.over(ws);
+            var on_error = function () {
+                console.log('error');
+            };
+            var on_connect = function () {
+                $("#send-btn").click(function () {
+                    client.send('/topic/test', {"content-type": "text/plain"}, $("#msg").val());
+                })
+
+            };
+            client.connect('guest', 'guest', on_connect, on_error, '/');
+
+        });
+    </script>
+</head>
+<body>
+<input type="text" id="msg">
+<input type="button" id="send-btn" value="发送">
+
+</body>
+</html>
