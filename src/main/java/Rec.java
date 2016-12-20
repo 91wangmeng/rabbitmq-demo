@@ -27,7 +27,7 @@ public class Rec {
             e.printStackTrace();
         }
         Channel channel = connection.createChannel();
-
+        channel.exchangeDeclare("test", "topic");
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
         Consumer consumer = new DefaultConsumer(channel) {
